@@ -1,0 +1,40 @@
+.pageTitle { font-size: var(--text-2xl); font-weight: 800; margin-bottom: var(--space-8); }
+
+.checkoutGrid { display: grid; grid-template-columns: 1fr 380px; gap: var(--space-8); align-items: start; }
+
+.sectionTitle { font-size: var(--text-lg); font-weight: 700; margin-bottom: var(--space-5); padding-bottom: var(--space-2); border-bottom: 2px solid var(--color-primary-50); }
+
+.formGrid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+
+/* Payment */
+.paymentMethods { display: flex; flex-direction: column; gap: var(--space-3); }
+.paymentCard {
+  display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4);
+  border: 2px solid var(--color-border); border-radius: var(--radius-md); cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.paymentCard:hover { border-color: var(--color-primary-light); }
+.paymentActive { border-color: var(--color-primary); background: var(--color-primary-50); }
+.paymentRadio { accent-color: var(--color-primary); width: 18px; height: 18px; }
+.paymentCard strong { display: block; font-size: var(--text-sm); }
+.paymentCard span { font-size: var(--text-xs); color: var(--color-text-secondary); }
+
+/* Summary */
+.summaryCard {
+  background: white; border: 2px solid var(--color-border); border-radius: var(--radius-lg);
+  padding: var(--space-6); position: sticky; top: calc(var(--header-height) + 80px);
+}
+.summaryTitle { font-size: var(--text-lg); font-weight: 700; margin-bottom: var(--space-4); }
+.summaryItem {
+  display: flex; justify-content: space-between; padding: var(--space-2) 0;
+  font-size: var(--text-sm); color: var(--color-text-secondary);
+}
+.summaryDivider { height: 1px; background: var(--color-border-light); margin: var(--space-3) 0; }
+.summaryRow { display: flex; justify-content: space-between; padding: var(--space-1) 0; font-size: var(--text-sm); }
+.totalRow { font-size: var(--text-lg); font-weight: 800; color: var(--color-primary); padding-top: var(--space-2); }
+
+@media (max-width: 768px) {
+  .checkoutGrid { grid-template-columns: 1fr; }
+  .formGrid { grid-template-columns: 1fr; }
+  .summaryCard { position: static; }
+}

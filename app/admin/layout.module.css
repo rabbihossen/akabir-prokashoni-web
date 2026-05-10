@@ -1,0 +1,95 @@
+.adminContainer {
+  display: flex;
+  min-height: 100vh;
+  background: var(--color-background-alt);
+}
+
+.sidebar {
+  width: 260px;
+  background: var(--color-text);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.sidebarLogo {
+  font-size: var(--text-xl);
+  font-weight: 800;
+  color: white;
+  margin-bottom: var(--space-8);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.sidebarNav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  flex: 1;
+}
+
+.navLink {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.navLink:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.navActive {
+  background: var(--color-primary);
+  color: white;
+}
+
+.backLink {
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  font-size: var(--text-sm);
+  padding-top: var(--space-6);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: auto;
+  transition: color var(--transition-fast);
+}
+
+.backLink:hover {
+  color: white;
+}
+
+.mainContent {
+  flex: 1;
+  padding: var(--space-8);
+  overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .adminContainer {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: static;
+    padding: var(--space-4);
+  }
+  .sidebarNav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .mainContent {
+    padding: var(--space-4);
+  }
+}

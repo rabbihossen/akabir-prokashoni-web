@@ -1,0 +1,121 @@
+'use client';
+import Link from 'next/link';
+import { useState } from 'react';
+import { useCart } from '@/lib/CartContext';
+import styles from './Header.module.css';
+
+export default function Header() {
+  const { totalItems } = useCart();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  return (
+    <>
+      {/* Top Bar */}
+      <div className={styles.topBar}>
+        <div className={`container ${styles.topBarInner}`}>
+          <span>📞 +880 1XXX-XXXXXX</span>
+          <div className={styles.topBarRight}>
+            <Link href="/track">অর্ডার ট্র্যাক করুন</Link>
+            <Link href="/account">আমার একাউন্ট</Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Header */}
+      <header className={styles.header}>
+        <div className={`container ${styles.headerInner}`}>
+          {/* Left section: Hamburger & Logo */}
+          <div className={styles.leftSection}>
+            <button
+              className={styles.menuToggle}
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              <span className={`${styles.hamburger} ${menuOpen ? styles.hamburgerOpen : ''}`} />
+            </button>
+            <Link href="/" className={styles.logo}>
+              <img src="/images/logo.png" alt="Akabir Prokashoni" width="200" height="40" className={styles.logoImg} />
+            </Link>
+          </div>
+
+          {/* Search Bar (Desktop) */}
+          <div className={`${styles.searchBar} ${searchOpen ? styles.searchOpen : ''}`}>
+            <input
+              type="text"
+              placeholder="বই, লেখক বা প্রকাশক খুঁজুন..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className={styles.searchInput}
+            />
+            <button className={styles.searchBtn}>
+              <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="M21 21l-4.35-4.35"/>
+              </svg>
+            </button>
+          </div>
+
+          {/* Right section: Actions */}
+          <div className={styles.actions}>
+            <button
+              className={styles.mobileSearchBtn}
+              onClick={() => setSearchOpen(!searchOpen)}
+            >
+              <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="M21 21l-4.35-4.35"/>
+              </svg>
+            </button>
+
+            <Link href="/cart" className={styles.cartBtn}>
+              <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <path d="M16 10a4 4 0 0 1-8 0"/>
+              </svg>
+              {totalItems > 0 && (
+                <span className={styles.cartBadge}>{totalItems}</span>
+              )}
+            </Link>
+
+            <Link href="/account" className={styles.actionBtn}>
+              <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </Link>
+          </div>
+        </div>
+
+        {/* Navigation */}
+        <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ''}`}>
+          <div className={`container ${styles.navInner}`}>
+            <Link href="/" className={styles.navLink} onClick={() => setMenuOpen(false)}>হোম</Link>
+            <Link href="/books" className={styles.navLink} onClick={() => setMenuOpen(false)}>সকল বই</Link>
+
+            <div className={styles.navDropdown}>
+              <span className={styles.navLink}>
+                বিষয় <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+              </span>
+              <div className={styles.dropdownMenu}>
+                <Link href="/books?category=islamic">ইসলামিক</Link>
+                <Link href="/books?category=self-development">আত্ম-উন্নয়ন</Link>
+                <Link href="/books?category=novel">উপন্যাস</Link>
+                <Link href="/books?category=thriller">থ্রিলার</Link>
+                <Link href="/books?category=children">শিশু-কিশোর</Link>
+                <Link href="/books?category=philosophy">চিন্তা ও দর্শন</Link>
+                <Link href="/books?category=history">ইতিহাস</Link>
+                <Link href="/books?category=programming">প্রোগ্রামিং</Link>
+              </div>
+            </div>
+
+            <Link href="/books?filter=new" className={styles.navLink} onClick={() => setMenuOpen(false)}>নতুন প্রকাশিত</Link>
+            <Link href="/books?filter=preorder" className={styles.navLink} onClick={() => setMenuOpen(false)}>প্রি-অর্ডার</Link>
+            <Link href="/books?filter=offer" className={styles.navLinkHighlight} onClick={() => setMenuOpen(false)}>🔥 আজকের অফার</Link>
+          </div>
+        </nav>
+      </header>
+    </>
+  );
+}

@@ -1,0 +1,77 @@
+.pageTitle { font-size: var(--text-2xl); font-weight: 800; text-align: center; margin-bottom: var(--space-8); }
+
+.searchBox { max-width: 600px; margin: 0 auto var(--space-10); }
+.searchForm {
+  display: flex; gap: var(--space-2); border: 2px solid var(--color-border);
+  border-radius: var(--radius-full); overflow: hidden; padding: var(--space-1);
+  background: white; box-shadow: var(--shadow-md);
+}
+.searchForm:focus-within { border-color: var(--color-primary); }
+.searchInput { flex: 1; padding: var(--space-2) var(--space-5); border: none; outline: none; font-size: var(--text-sm); }
+
+/* Result */
+.resultCard {
+  max-width: 700px; margin: 0 auto; background: white; border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg); overflow: hidden; animation: fadeInUp 0.4s ease;
+}
+.orderHeader {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: var(--space-6); border-bottom: 1px solid var(--color-border-light);
+}
+.orderId { font-size: var(--text-lg); font-weight: 700; font-family: var(--font-english); }
+.orderDate { font-size: var(--text-sm); color: var(--color-text-secondary); }
+.statusBadge {
+  padding: var(--space-2) var(--space-4); background: var(--color-primary-50);
+  color: var(--color-primary); border-radius: var(--radius-full); font-weight: 600; font-size: var(--text-sm);
+}
+
+/* Timeline */
+.timeline { padding: var(--space-8) var(--space-6); }
+.timelineStep {
+  display: flex; align-items: flex-start; gap: var(--space-4); position: relative;
+  padding-bottom: var(--space-6);
+}
+.timelineStep:last-child { padding-bottom: 0; }
+.stepDot {
+  width: 36px; height: 36px; border-radius: var(--radius-full); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--color-border); color: white; font-weight: 700; font-size: var(--text-sm);
+  z-index: 1; transition: all var(--transition-base);
+}
+.stepDone .stepDot { background: var(--color-primary); }
+.stepInfo { display: flex; flex-direction: column; gap: 2px; }
+.stepLabel { font-weight: 600; font-size: var(--text-sm); }
+.stepDate { font-size: var(--text-xs); color: var(--color-text-light); }
+.stepLine {
+  position: absolute; left: 17px; top: 36px; width: 2px;
+  height: calc(100% - 36px); background: var(--color-border);
+}
+.lineDone { background: var(--color-primary); }
+
+/* Items */
+.orderItems { padding: var(--space-6); border-top: 1px solid var(--color-border-light); }
+.orderItems h3 { font-size: var(--text-base); font-weight: 700; margin-bottom: var(--space-4); }
+.orderItem {
+  display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border-light);
+}
+.orderItemIcon { font-size: 1.5rem; }
+.orderItemInfo { flex: 1; }
+.orderItemInfo strong { display: block; font-size: var(--text-sm); }
+.orderItemInfo span { font-size: var(--text-xs); color: var(--color-text-secondary); }
+.orderItemPrice { font-weight: 700; font-family: var(--font-english); color: var(--color-primary); }
+.orderTotal {
+  display: flex; justify-content: space-between; padding-top: var(--space-4);
+  font-size: var(--text-lg);
+}
+.orderTotal strong { color: var(--color-primary); font-family: var(--font-english); }
+
+/* Delivery */
+.deliveryInfo { padding: var(--space-6); border-top: 1px solid var(--color-border-light); background: var(--color-bg-secondary); }
+.deliveryInfo h3 { font-size: var(--text-base); font-weight: 700; margin-bottom: var(--space-2); }
+.deliveryInfo p { font-size: var(--text-sm); color: var(--color-text-secondary); }
+
+@media (max-width: 480px) {
+  .searchForm { flex-direction: column; border-radius: var(--radius-md); }
+  .orderHeader { flex-direction: column; gap: var(--space-3); align-items: flex-start; }
+}
