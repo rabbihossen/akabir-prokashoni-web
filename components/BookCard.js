@@ -17,11 +17,15 @@ export default function BookCard({ book }) {
   const reviewCount = Number(book.review_count || book.reviewCount) || 0;
   const discount = book.discount || (originalPrice > price ? Math.round((1 - price / originalPrice) * 100) : 0);
 
-  // Ensure image URL is absolute
+  // Ensure image URL is absolute and uses correct host
   const getImageUrl = (url) => {
     if (!url) return null;
-    if (url.startsWith('http')) return url;
-    return `http://localhost:8000${url.startsWith('/') ? '' : '/'}${url}`;
+    if (url.startsWith('http')) return url;  // Already absolute
+    // Relative path: prepend API base
+    const base = process.env.NEXT_PUBLIC_API_URL 
+      ? process.env.NEXT_PUBLIC_API_URL.replace('/api', '')
+      : 'http://127.0.0.1:8000';
+    return `${base}${url.startsWith('/') ? '' : '/'}${url}`;
   };
   
   const finalCoverImage = getImageUrl(coverImage);

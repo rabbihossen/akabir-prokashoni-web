@@ -29,11 +29,14 @@ export default function BookDetailClient({ book, relatedBooks }) {
     ? Math.round(((originalPrice - price) / originalPrice) * 100)
     : 0;
 
-  // Ensure image URL is absolute
+  // Ensure image URL is absolute and uses correct host
   const getImageUrl = (url) => {
     if (!url) return null;
     if (url.startsWith('http')) return url;
-    return `http://localhost:8000${url.startsWith('/') ? '' : '/'}${url}`;
+    const base = process.env.NEXT_PUBLIC_API_URL 
+      ? process.env.NEXT_PUBLIC_API_URL.replace('/api', '')
+      : 'http://127.0.0.1:8000';
+    return `${base}${url.startsWith('/') ? '' : '/'}${url}`;
   };
   const finalCoverImage = getImageUrl(coverImage);
 
