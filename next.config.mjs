@@ -19,6 +19,11 @@ const nextConfig = {
         hostname: 'web-production-bd153.up.railway.app',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        pathname: '/**',
+      },
     ],
     // Disable private IP blocking for local dev
     unoptimized: process.env.NODE_ENV === 'development',
