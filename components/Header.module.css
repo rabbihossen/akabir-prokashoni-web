@@ -58,58 +58,86 @@
 .searchBar {
   flex: 1;
   max-width: 560px;
+  max-width: 500px;
   display: flex;
-  border: 2px solid var(--color-border);
+  background: white;
+  border: 1px solid #e5e7eb;
   border-radius: var(--radius-full);
   overflow: hidden;
-  transition: border-color var(--transition-fast);
+  transition: all var(--transition-fast);
+  margin: 0 var(--space-4);
 }
+
 .searchBar:focus-within {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-primary-50);
+  border-color: var(--color-accent); /* Gold color */
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
 }
+
 .searchInput {
   flex: 1;
-  padding: var(--space-2) var(--space-5);
   border: none;
-  outline: none;
+  padding: 10px 20px;
   font-size: var(--text-sm);
+  outline: none;
   background: transparent;
 }
+
 .searchBtn {
-  padding: var(--space-2) var(--space-4);
-  background: var(--color-primary);
+  background: var(--color-primary); /* Deep Green */
   color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background var(--transition-fast);
+  border: none;
+  padding: 0 20px;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
+
 .searchBtn:hover {
-  background: var(--color-primary-dark);
+  background: #144b2e;
 }
 
 /* Actions */
 .actions {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
-  flex-shrink: 0;
+  gap: var(--space-4);
 }
-.actionBtn, .cartBtn {
+
+.cartBtn, .actionBtn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 42px;
   height: 42px;
+  border-radius: var(--radius-full);
+  color: var(--color-text-main);
+  background: #f3f4f6;
+  transition: all 0.3s ease;
+}
+
+.cartBtn:hover, .actionBtn:hover {
+  background: var(--color-accent);
+  color: #1a5e3a;
+  transform: translateY(-2px);
+}
+
+.cartBadge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: var(--color-primary);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-full);
-  color: var(--color-text);
-  transition: all var(--transition-fast);
+  border: 2px solid white;
 }
-.actionBtn:hover, .cartBtn:hover {
-  background: var(--color-primary-50);
-  color: var(--color-primary);
-}
+
 .signInBtn {
   background: #4285F4; /* Matching the screenshot blue */
   color: white !important;

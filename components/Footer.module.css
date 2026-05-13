@@ -22,7 +22,6 @@
 
 .logoImg {
   object-fit: contain;
-  filter: brightness(0) invert(1); /* Optional: makes logo white if needed, but the user probably wants original colors. Let's see. */
 }
 
 .brandIcon {

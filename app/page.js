@@ -51,7 +51,6 @@ export default async function Home() {
                 className={styles.catCard}
                 style={{ animationDelay: `${i * 0.05}s`, '--cat-color': cat.color || '#3B82F6' }}
               >
-                <span className={styles.catIcon}>{cat.icon || '📚'}</span>
                 <span className={styles.catName}>{cat.name}</span>
                 <span className={styles.catCount}>{cat.count || 0} বই</span>
               </Link>
@@ -64,7 +63,7 @@ export default async function Home() {
       <section className="section" style={{ background: 'var(--color-bg-secondary)' }}>
         <div className="container">
           <div className="section-header">
-            <h2 className="section-title">🔥 ট্রেন্ডিং বই</h2>
+            <h2 className="section-title">ট্রেন্ডিং বই</h2>
             <Link href="/books?sort=trending" className="section-link">সব দেখুন →</Link>
           </div>
           <div className={`grid grid-5 ${styles.bookGrid}`}>
@@ -85,7 +84,7 @@ export default async function Home() {
         <section className="section">
           <div className="container">
             <div className="section-header">
-              <h2 className="section-title">✨ নতুন প্রকাশিত</h2>
+              <h2 className="section-title">নতুন প্রকাশিত</h2>
               <Link href="/books?filter=new" className="section-link">সব দেখুন →</Link>
             </div>
             <div className={`grid grid-5 ${styles.bookGrid}`}>
@@ -106,7 +105,7 @@ export default async function Home() {
         <section className="section">
           <div className="container">
             <div className="section-header">
-              <h2 className="section-title">📦 প্রি-অর্ডার</h2>
+              <h2 className="section-title">প্রি-অর্ডার</h2>
               <Link href="/books?filter=preorder" className="section-link">সব দেখুন →</Link>
             </div>
             <div className={`grid grid-5 ${styles.bookGrid}`}>

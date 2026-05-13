@@ -15,7 +15,7 @@ export default function Header() {
       {/* Top Bar */}
       <div className={styles.topBar}>
         <div className={`container ${styles.topBarInner}`}>
-          <span>📞 +880 1XXX-XXXXXX</span>
+          <span>Phone: +880 1XXX-XXXXXX</span>
           <div className={styles.topBarRight}>
             <Link href="/track">অর্ডার ট্র্যাক করুন</Link>
             <Link href="/account">আমার একাউন্ট</Link>
@@ -112,7 +112,7 @@ export default function Header() {
 
             <Link href="/books?filter=new" className={styles.navLink} onClick={() => setMenuOpen(false)}>নতুন প্রকাশিত</Link>
             <Link href="/books?filter=preorder" className={styles.navLink} onClick={() => setMenuOpen(false)}>প্রি-অর্ডার</Link>
-            <Link href="/books?filter=offer" className={styles.navLinkHighlight} onClick={() => setMenuOpen(false)}>🔥 আজকের অফার</Link>
+            <Link href="/books?filter=offer" className={styles.navLinkHighlight} onClick={() => setMenuOpen(false)}>আজকের অফার</Link>
           </div>
         </nav>
       </header>
