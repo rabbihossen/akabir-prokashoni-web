@@ -77,20 +77,8 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Promo Banner */}
-      <section className={styles.promoBanner}>
-        <div className="container">
-          <div className={styles.promoContent}>
-            <h2 className={styles.promoTitle}>📖 একটু পড়ে দেখুন!</h2>
-            <p className={styles.promoDesc}>
-              কেনার আগে বইয়ের ৩-৪ পৃষ্ঠা পড়ে দেখুন। প্রতিটি বইয়ের ডিটেইল পেজে "একটু পড়ে দেখুন" বাটনে ক্লিক করুন।
-            </p>
-            <Link href="/books" className="btn btn-accent btn-lg">
-              এখনই পড়া শুরু করুন →
-            </Link>
-          </div>
-        </div>
-      </section>
+
+
 
       {/* New Releases */}
       {newBooks.length > 0 && (
