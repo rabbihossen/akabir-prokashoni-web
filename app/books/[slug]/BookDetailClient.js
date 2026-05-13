@@ -42,8 +42,9 @@ export default function BookDetailClient({ book, relatedBooks }) {
   const finalCoverImage = getFileUrl(coverImage);
   const samplePdfUrl = getFileUrl(book.sample_pdf);
 
-  // Check if sample is PDF or image
-  const isPdf = samplePdfUrl && samplePdfUrl.toLowerCase().match(/\.pdf($|\?)/);
+  // Check if sample is image (jpg/png/webp), otherwise treat as PDF since field is sample_pdf
+  const isImage = samplePdfUrl && samplePdfUrl.toLowerCase().match(/\.(jpg|jpeg|png|gif|webp|svg)($|\?)/);
+  const isPdf = samplePdfUrl && !isImage;
 
   const handleAddToCart = () => {
     addToCart({
