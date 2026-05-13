@@ -510,3 +510,20 @@
   .pdfViewer { min-height: 400px; }
   .modalPdfViewer { min-height: 50vh; }
 }
+
+/* PDF Pages as Images */
+.pdfPagesWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.pdfPageImage {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  border: 1px solid #e5e5e5;
+}

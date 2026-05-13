@@ -46,6 +46,18 @@ export default function BookDetailClient({ book, relatedBooks }) {
   const isImage = samplePdfUrl && samplePdfUrl.toLowerCase().match(/\.(jpg|jpeg|png|gif|webp|svg)($|\?)/);
   const isPdf = samplePdfUrl && !isImage;
 
+  // Convert Cloudinary PDF URL to image URL (renders first page)
+  const getPdfAsImageUrl = (url, page = 1) => {
+    if (!url) return null;
+    // Convert raw/upload to image/upload and add page + format
+    const imgUrl = url.replace('/raw/upload/', `/image/upload/pg_${page}/`);
+    // Add .jpg extension if not already an image format
+    if (!imgUrl.match(/\.(jpg|jpeg|png|webp)($|\?)/i)) {
+      return imgUrl.replace(/\.[^.]+$/, '.jpg');
+    }
+    return imgUrl;
+  };
+
   const handleAddToCart = () => {
     addToCart({
       id: book.id,
@@ -307,6 +319,7 @@ export default function BookDetailClient({ book, relatedBooks }) {
         </section>
       )}
 
+
       {/* Preview Modal */}
       {showPreview && samplePdfUrl && (
         <div className={styles.modalOverlay} onClick={() => setShowPreview(false)}>
@@ -317,11 +330,17 @@ export default function BookDetailClient({ book, relatedBooks }) {
             </div>
             <div className={styles.modalBody}>
               {isPdf ? (
-                <iframe
-                  src={`https://docs.google.com/gview?url=${encodeURIComponent(samplePdfUrl)}&embedded=true`}
-                  className={styles.modalPdfViewer}
-                  title="বইয়ের স্যাম্পল"
-                />
+                <div className={styles.pdfPagesWrap}>
+                  {[1, 2, 3, 4].map(page => (
+                    <img
+                      key={page}
+                      src={getPdfAsImageUrl(samplePdfUrl, page)}
+                      alt={`${title} - পৃষ্ঠা ${page}`}
+                      className={styles.pdfPageImage}
+                      onError={(e) => e.target.style.display = 'none'}
+                    />
+                  ))}
+                </div>
               ) : (
                 <div className={styles.modalImageWrap}>
                   <img
