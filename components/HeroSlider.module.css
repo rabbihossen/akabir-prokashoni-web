@@ -1,15 +1,22 @@
 .heroContainer {
   position: relative;
-  height: 350px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 220px;
   overflow: hidden;
-  background-color: #f0f0f0;
+  border-radius: 12px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .heroFallback {
-  height: 280px;
-  background: url('/img/hero-bg.png');
-  background-size: cover;
-  background-position: center;
+  height: 180px;
+  max-width: 1200px;
+  margin: 10px auto 5px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #1a5e3a 0%, #2d8f5e 100%);
 }
 
 .slide {
@@ -36,75 +43,108 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.4); /* Dark overlay for text readability */
+  background: linear-gradient(to right, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.1) 60%, transparent 100%);
   display: flex;
   align-items: center;
 }
 
 .content {
   color: white;
-  max-width: 600px;
+  max-width: 450px;
+  padding: 0 20px;
 }
 
 .title {
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   font-weight: 800;
-  margin-bottom: 10px;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  margin-bottom: 6px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+  line-height: 1.3;
 }
 
 .subtitle {
-  font-size: 1.2rem;
-  line-height: 1.5;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  opacity: 0.9;
 }
 
 .indicators {
   position: absolute;
-  bottom: 20px;
+  bottom: 10px;
   left: 0;
   width: 100%;
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   z-index: 3;
 }
 
 .indicator {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
+  width: 24px;
+  height: 4px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.4);
   border: none;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .indicator.activeIndicator {
   background: white;
-  transform: scale(1.2);
+  width: 36px;
 }
 
+/* Desktop */
+@media (min-width: 769px) {
+  .heroContainer {
+    height: 240px;
+    margin-left: 16px;
+    margin-right: 16px;
+    max-width: calc(100% - 32px);
+  }
+}
+
+@media (min-width: 1232px) {
+  .heroContainer {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* Tablet */
 @media (max-width: 768px) {
   .heroContainer {
-    height: 250px;
+    height: 180px;
+    border-radius: 8px;
+    margin-left: 10px;
+    margin-right: 10px;
   }
   .title {
-    font-size: 1.8rem;
+    font-size: 1.2rem;
   }
   .subtitle {
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
 }
 
+/* Mobile */
 @media (max-width: 480px) {
   .heroContainer {
-    height: 200px;
+    height: 150px;
+    border-radius: 8px;
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-top: 8px;
   }
   .title {
-    font-size: 1.4rem;
+    font-size: 1rem;
   }
   .subtitle {
     display: none;
+  }
+  .content {
+    padding: 0 12px;
   }
 }
