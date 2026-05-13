@@ -35,7 +35,11 @@ export default function CartPage() {
             {cart.map(item => (
               <div key={item.id} className={styles.cartItem}>
                 <div className={styles.itemImage}>
-                  <span style={{ fontSize: '2.5rem' }}>📖</span>
+                  {item.coverImage ? (
+                    <img src={item.coverImage} alt={item.title} />
+                  ) : (
+                    <span style={{ fontSize: '2.5rem' }}>📖</span>
+                  )}
                 </div>
                 <div className={styles.itemInfo}>
                   <Link href={`/books/${item.slug}`} className={styles.itemTitle}>

@@ -151,7 +151,16 @@ export default function CheckoutPage() {
             <h3 className={styles.summaryTitle}>📋 অর্ডার সামারি</h3>
             {cart.map(item => (
               <div key={item.id} className={styles.summaryItem}>
-                <span>{item.title} × {item.quantity}</span>
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                  <div style={{ width: '40px', height: '56px', borderRadius: '4px', background: '#f1f5f9', overflow: 'hidden', flexShrink: 0 }}>
+                    {item.coverImage ? (
+                      <img src={item.coverImage} alt={item.title} style={{ width: '100%', height: '100%', object-fit: 'cover' }} />
+                    ) : (
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontSize: '18px' }}>📖</div>
+                    )}
+                  </div>
+                  <span>{item.title} × {item.quantity}</span>
+                </div>
                 <span>৳{(item.price * item.quantity).toLocaleString()}</span>
               </div>
             ))}
