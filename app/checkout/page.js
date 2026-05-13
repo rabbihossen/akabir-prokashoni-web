@@ -38,7 +38,7 @@ export default function CheckoutPage() {
       district: formData.get('district'),
       address: formData.get('address'),
       payment_method: paymentMethod,
-      items: cart.map(item => ({ book_id: item.id, quantity: item.quantity }))
+      items: cart.map(item => ({ book_id: item.id, slug: item.slug, quantity: item.quantity }))
     };
 
     try {
