@@ -1,7 +1,8 @@
 'use client';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCart } from '@/lib/CartContext';
+import { getCategories } from '@/lib/api';
 import styles from './Header.module.css';
 
 export default function Header() {
@@ -9,6 +10,18 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    getCategories()
+      .then(data => {
+        const cats = Array.isArray(data?.results) ? data.results : (Array.isArray(data) ? data : []);
+        setCategories(cats);
+      })
+      .catch(() => setCategories([]));
+  }, []);
+
+  const closeMenu = () => setMenuOpen(false);
 
   return (
     <>
@@ -91,28 +104,28 @@ export default function Header() {
         {/* Navigation */}
         <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ''}`}>
           <div className={`container ${styles.navInner}`}>
-            <Link href="/" className={styles.navLink} onClick={() => setMenuOpen(false)}>হোম</Link>
-            <Link href="/books" className={styles.navLink} onClick={() => setMenuOpen(false)}>সকল বই</Link>
+            <Link href="/" className={styles.navLink} onClick={closeMenu}>হোম</Link>
+            <Link href="/books" className={styles.navLink} onClick={closeMenu}>সকল বই</Link>
 
             <div className={styles.navDropdown}>
               <span className={styles.navLink}>
                 বিষয় <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
               </span>
               <div className={styles.dropdownMenu}>
-                <Link href="/books?category=islamic">ইসলামিক</Link>
-                <Link href="/books?category=self-development">আত্ম-উন্নয়ন</Link>
-                <Link href="/books?category=novel">উপন্যাস</Link>
-                <Link href="/books?category=thriller">থ্রিলার</Link>
-                <Link href="/books?category=children">শিশু-কিশোর</Link>
-                <Link href="/books?category=philosophy">চিন্তা ও দর্শন</Link>
-                <Link href="/books?category=history">ইতিহাস</Link>
-                <Link href="/books?category=programming">প্রোগ্রামিং</Link>
+                {categories.map(cat => (
+                  <Link key={cat.slug} href={`/books?category=${cat.slug}`} onClick={closeMenu}>
+                    {cat.name}
+                  </Link>
+                ))}
+                {categories.length === 0 && (
+                  <span style={{ padding: '8px 16px', color: '#999', fontSize: '13px' }}>লোড হচ্ছে...</span>
+                )}
               </div>
             </div>
 
-            <Link href="/books?filter=new" className={styles.navLink} onClick={() => setMenuOpen(false)}>নতুন প্রকাশিত</Link>
-            <Link href="/books?filter=preorder" className={styles.navLink} onClick={() => setMenuOpen(false)}>প্রি-অর্ডার</Link>
-            <Link href="/books?filter=offer" className={styles.navLinkHighlight} onClick={() => setMenuOpen(false)}>আজকের অফার</Link>
+            <Link href="/books?filter=new" className={styles.navLink} onClick={closeMenu}>নতুন প্রকাশিত</Link>
+            <Link href="/books?filter=preorder" className={styles.navLink} onClick={closeMenu}>প্রি-অর্ডার</Link>
+            <Link href="/books?filter=offer" className={styles.navLinkHighlight} onClick={closeMenu}>আজকের অফার</Link>
           </div>
         </nav>
       </header>
