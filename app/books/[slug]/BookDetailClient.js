@@ -46,15 +46,27 @@ export default function BookDetailClient({ book, relatedBooks }) {
   const isImage = samplePdfUrl && samplePdfUrl.toLowerCase().match(/\.(jpg|jpeg|png|gif|webp|svg)($|\?)/);
   const isPdf = samplePdfUrl && !isImage;
 
-  // Convert Cloudinary PDF URL to image URL (renders first page)
+  // Convert Cloudinary PDF URL to image URL (renders specific page)
   const getPdfAsImageUrl = (url, page = 1) => {
     if (!url) return null;
-    // Convert raw/upload to image/upload and add page + format
-    const imgUrl = url.replace('/raw/upload/', `/image/upload/pg_${page}/`);
-    // Add .jpg extension if not already an image format
-    if (!imgUrl.match(/\.(jpg|jpeg|png|webp)($|\?)/i)) {
-      return imgUrl.replace(/\.[^.]+$/, '.jpg');
+    
+    // If it's not a Cloudinary URL, we can't use this trick
+    if (!url.includes('cloudinary.com')) return url;
+
+    let imgUrl = url;
+    // Ensure it's treated as an image upload, not raw
+    imgUrl = imgUrl.replace('/raw/upload/', '/image/upload/');
+    
+    // Insert pg_{page} after /upload/
+    if (imgUrl.includes('/upload/v')) {
+      imgUrl = imgUrl.replace('/upload/v', `/upload/pg_${page}/v`);
+    } else {
+      imgUrl = imgUrl.replace('/upload/', `/upload/pg_${page}/`);
     }
+    
+    // Change extension to .jpg
+    imgUrl = imgUrl.replace(/\.pdf($|\?)/i, '.jpg$1');
+    
     return imgUrl;
   };
 
