@@ -262,10 +262,78 @@
   background: white;
 }
 .tabContent {
-  padding: 28px;
+  padding: 32px;
   font-size: 15px;
   line-height: 1.8;
   color: #444;
+}
+
+.contentTitle {
+  font-size: 18px;
+  font-weight: 800;
+  color: #333;
+  margin-bottom: 20px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.contentTitle::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background: var(--color-primary);
+  border-radius: var(--radius-full);
+}
+
+.specTable {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #f0f0f0;
+}
+
+.specTable tr:nth-child(even) {
+  background: #fafafa;
+}
+
+.specTable td {
+  padding: 14px 20px;
+  border: 1px solid #f0f0f0;
+  font-size: 14px;
+}
+
+.specLabel {
+  width: 30%;
+  font-weight: 600;
+  color: #666;
+  background: #fdfdfd;
+}
+
+.specValue {
+  color: #333;
+  font-weight: 500;
+}
+
+.specLink {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.specLink:hover {
+  text-decoration: underline;
+}
+
+.authorContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.descriptionText {
+  white-space: pre-line;
 }
 
 /* Modal */

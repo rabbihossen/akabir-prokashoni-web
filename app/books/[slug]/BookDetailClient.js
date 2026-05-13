@@ -192,51 +192,100 @@ export default function BookDetailClient({ book, relatedBooks }) {
           </div>
         </div>
 
-        {/* Description Tab */}
+        {/* Description Tabs */}
         <div className={styles.descSection}>
           <div className={styles.tabBar}>
             <button
               className={`${styles.tab} ${activeTab === 'description' ? styles.tabActive : ''}`}
               onClick={() => setActiveTab('description')}
-            >বিবরণ</button>
+            >Summary</button>
+            <button
+              className={`${styles.tab} ${activeTab === 'specification' ? styles.tabActive : ''}`}
+              onClick={() => setActiveTab('specification')}
+            >Specification</button>
             <button
               className={`${styles.tab} ${activeTab === 'author' ? styles.tabActive : ''}`}
               onClick={() => setActiveTab('author')}
-            >লেখক</button>
-            {samplePdfUrl && (
-              <button
-                className={`${styles.tab} ${activeTab === 'preview' ? styles.tabActive : ''}`}
-                onClick={() => setActiveTab('preview')}
-              >📖 একটু পড়ে দেখুন</button>
-            )}
+            >Author</button>
           </div>
           <div className={styles.tabContent}>
             {activeTab === 'description' && (
-              <p>{book.description || 'বিবরণ পাওয়া যায়নি।'}</p>
-            )}
-            {activeTab === 'author' && (
-              <div>
-                <h3 style={{ marginBottom: '8px' }}>{authorName}</h3>
-                <p>{book.author?.bio || 'লেখকের তথ্য পাওয়া যায়নি।'}</p>
+              <div className={styles.descriptionText}>
+                <h3 className={styles.contentTitle}>বইটির সংক্ষিপ্ত বিবরণ</h3>
+                <p>{book.description || 'বিবরণ পাওয়া যায়নি।'}</p>
               </div>
             )}
-            {activeTab === 'preview' && samplePdfUrl && (
-              <div className={styles.previewContent}>
-                {isPdf ? (
-                  <iframe
-                    src={samplePdfUrl}
-                    className={styles.pdfViewer}
-                    title="বইয়ের স্যাম্পল"
-                  />
-                ) : (
-                  <div className={styles.previewImageWrap}>
-                    <img
-                      src={samplePdfUrl}
-                      alt={`${title} - একটু পড়ে দেখুন`}
-                      className={styles.previewImage}
-                    />
-                  </div>
-                )}
+            
+            {activeTab === 'specification' && (
+              <div className={styles.specificationTable}>
+                <h3 className={styles.contentTitle}>বইটির বিস্তারিত তথ্য</h3>
+                <table className={styles.specTable}>
+                  <tbody>
+                    <tr>
+                      <td className={styles.specLabel}>Title</td>
+                      <td className={styles.specValue}>{title}</td>
+                    </tr>
+                    <tr>
+                      <td className={styles.specLabel}>Author</td>
+                      <td className={styles.specValue}>
+                        <Link href={`/books?author=${authorSlug}`} className={styles.specLink}>
+                          {authorName}
+                        </Link>
+                      </td>
+                    </tr>
+                    {book.translator && (
+                      <tr>
+                        <td className={styles.specLabel}>Translator</td>
+                        <td className={styles.specValue}>{book.translator}</td>
+                      </tr>
+                    )}
+                    {book.editor && (
+                      <tr>
+                        <td className={styles.specLabel}>Editor</td>
+                        <td className={styles.specValue}>{book.editor}</td>
+                      </tr>
+                    )}
+                    {book.publisher && (
+                      <tr>
+                        <td className={styles.specLabel}>Publisher</td>
+                        <td className={styles.specValue}>{book.publisher}</td>
+                      </tr>
+                    )}
+                    {book.isbn && (
+                      <tr>
+                        <td className={styles.specLabel}>ISBN</td>
+                        <td className={styles.specValue}>{book.isbn}</td>
+                      </tr>
+                    )}
+                    {book.edition && (
+                      <tr>
+                        <td className={styles.specLabel}>Edition</td>
+                        <td className={styles.specValue}>{book.edition}</td>
+                      </tr>
+                    )}
+                    {book.pages > 0 && (
+                      <tr>
+                        <td className={styles.specLabel}>Number of Pages</td>
+                        <td className={styles.specValue}>{book.pages}</td>
+                      </tr>
+                    )}
+                    <tr>
+                      <td className={styles.specLabel}>Country</td>
+                      <td className={styles.specValue}>বাংলাদেশ</td>
+                    </tr>
+                    <tr>
+                      <td className={styles.specLabel}>Language</td>
+                      <td className={styles.specValue}>{book.language === 'bangla' ? 'বাংলা' : book.language}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            )}
+
+            {activeTab === 'author' && (
+              <div className={styles.authorContent}>
+                <h3 className={styles.contentTitle}>{authorName}</h3>
+                <p>{book.author?.bio || 'লেখকের তথ্য পাওয়া যায়নি।'}</p>
               </div>
             )}
           </div>
