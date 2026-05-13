@@ -123,7 +123,7 @@ export default async function Home() {
       {/* View All Books Button */}
       <section className="section" style={{ textAlign: 'center', paddingBottom: 'var(--space-12)' }}>
         <Link href="/books" className="btn btn-primary btn-lg" style={{ borderRadius: 'var(--radius-full)' }}>
-          📚 সকল বই দেখুন
+          সকল বই দেখুন
         </Link>
       </section>
 

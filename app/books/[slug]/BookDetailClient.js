@@ -115,7 +115,7 @@ export default function BookDetailClient({ book, relatedBooks }) {
                 className={styles.previewBtn}
                 onClick={() => setShowPreview(true)}
               >
-                📖 একটু পড়ে দেখুন
+                একটু পড়ে দেখুন
               </button>
             )}
           </div>
@@ -312,13 +312,13 @@ export default function BookDetailClient({ book, relatedBooks }) {
         <div className={styles.modalOverlay} onClick={() => setShowPreview(false)}>
           <div className={styles.previewModal} onClick={(e) => e.stopPropagation()}>
             <div className={styles.modalHeader}>
-              <h3 className={styles.modalTitle}>📖 একটু পড়ে দেখুন — {title}</h3>
+              <h3 className={styles.modalTitle}>একটু পড়ে দেখুন — {title}</h3>
               <button className={styles.modalClose} onClick={() => setShowPreview(false)}>✕</button>
             </div>
             <div className={styles.modalBody}>
               {isPdf ? (
                 <iframe
-                  src={samplePdfUrl}
+                  src={`https://docs.google.com/gview?url=${encodeURIComponent(samplePdfUrl)}&embedded=true`}
                   className={styles.modalPdfViewer}
                   title="বইয়ের স্যাম্পল"
                 />
