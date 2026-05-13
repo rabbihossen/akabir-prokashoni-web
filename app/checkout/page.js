@@ -68,8 +68,8 @@ export default function CheckoutPage() {
         <p style={{ color: 'var(--color-text-secondary)', marginBottom: '1rem' }}>অর্ডার আইডি: {orderId}</p>
         <p style={{ marginBottom: '2rem' }}>আপনার অর্ডার সফলভাবে গৃহীত হয়েছে। শীঘ্রই আমরা আপনার সাথে যোগাযোগ করবো।</p>
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Link href="/track" className="btn btn-primary btn-lg">📦 অর্ডার ট্র্যাক করুন</Link>
-          <Link href="/" className="btn btn-outline btn-lg">🏠 হোমে ফিরুন</Link>
+          <Link href="/track" className="btn btn-primary btn-lg">অর্ডার ট্র্যাক করুন</Link>
+          <Link href="/" className="btn btn-outline btn-lg">হোমে ফিরুন</Link>
         </div>
       </div>
     );
@@ -86,11 +86,11 @@ export default function CheckoutPage() {
 
   return (
     <div className="container section">
-      <h1 className={styles.pageTitle}>💳 চেকআউট</h1>
+      <h1 className={styles.pageTitle}>চেকআউট</h1>
       <form onSubmit={handleOrder} className={styles.checkoutGrid}>
         {/* Shipping Info */}
         <div className={styles.formSection}>
-          <h2 className={styles.sectionTitle}>📍 ডেলিভারি তথ্য</h2>
+          <h2 className={styles.sectionTitle}>ডেলিভারি তথ্য</h2>
           
           {error && (
             <div className="alert alert-error" style={{ background: '#fee2e2', color: '#b91c1c', padding: '1rem', borderRadius: '4px', marginBottom: '1.5rem' }}>
@@ -125,13 +125,13 @@ export default function CheckoutPage() {
           </div>
 
           {/* Payment */}
-          <h2 className={styles.sectionTitle} style={{ marginTop: 'var(--space-8)' }}>💰 পেমেন্ট মেথড</h2>
+          <h2 className={styles.sectionTitle} style={{ marginTop: 'var(--space-8)' }}>পেমেন্ট মেথড</h2>
           <div className={styles.paymentMethods}>
             {[
-              { id: 'cod', label: '🏠 ক্যাশ অন ডেলিভারি', desc: 'পণ্য হাতে পেয়ে মূল্য পরিশোধ করুন' },
-              { id: 'bkash', label: '📱 বিকাশ', desc: 'বিকাশ মোবাইল ব্যাংকিং' },
-              { id: 'nagad', label: '📱 নগদ', desc: 'নগদ মোবাইল ব্যাংকিং' },
-              { id: 'card', label: '💳 কার্ড পেমেন্ট', desc: 'Visa / MasterCard' },
+              { id: 'cod', label: 'ক্যাশ অন ডেলিভারি', desc: 'পণ্য হাতে পেয়ে মূল্য পরিশোধ করুন' },
+              { id: 'bkash', label: 'বিকাশ', desc: 'বিকাশ মোবাইল ব্যাংকিং' },
+              { id: 'nagad', label: 'নগদ', desc: 'নগদ মোবাইল ব্যাংকিং' },
+              { id: 'card', label: 'কার্ড পেমেন্ট', desc: 'Visa / MasterCard' },
             ].map(method => (
               <label key={method.id} className={`${styles.paymentCard} ${paymentMethod === method.id ? styles.paymentActive : ''}`}>
                 <input type="radio" name="payment" value={method.id} checked={paymentMethod === method.id}
@@ -173,7 +173,7 @@ export default function CheckoutPage() {
             </p>
 
             <button type="submit" disabled={loading} className="btn btn-primary btn-lg" style={{ width: '100%', marginTop: 'var(--space-2)' }}>
-              {loading ? '⏳ প্রসেস হচ্ছে...' : '✅ অর্ডার কনফার্ম করুন'}
+              {loading ? 'প্রসেস হচ্ছে...' : 'অর্ডার কনফার্ম করুন'}
             </button>
           </div>
         </div>
