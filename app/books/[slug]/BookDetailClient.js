@@ -12,6 +12,7 @@ export default function BookDetailClient({ book, relatedBooks }) {
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
   const [addedToCart, setAddedToCart] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
 
   if (!book) return null;
 
@@ -30,7 +31,7 @@ export default function BookDetailClient({ book, relatedBooks }) {
     : 0;
 
   // Ensure image URL is absolute and uses correct host
-  const getImageUrl = (url) => {
+  const getFileUrl = (url) => {
     if (!url) return null;
     if (url.startsWith('http')) return url;
     const base = process.env.NEXT_PUBLIC_API_URL 
@@ -38,7 +39,11 @@ export default function BookDetailClient({ book, relatedBooks }) {
       : 'http://127.0.0.1:8000';
     return `${base}${url.startsWith('/') ? '' : '/'}${url}`;
   };
-  const finalCoverImage = getImageUrl(coverImage);
+  const finalCoverImage = getFileUrl(coverImage);
+  const samplePdfUrl = getFileUrl(book.sample_pdf);
+
+  // Check if sample is PDF or image
+  const isPdf = samplePdfUrl && samplePdfUrl.toLowerCase().match(/\.pdf($|\?)/);
 
   const handleAddToCart = () => {
     addToCart({
@@ -102,6 +107,16 @@ export default function BookDetailClient({ book, relatedBooks }) {
                 </div>
               )}
             </div>
+
+            {/* "একটু পড়ে দেখুন" Button */}
+            {samplePdfUrl && (
+              <button
+                className={styles.previewBtn}
+                onClick={() => setShowPreview(true)}
+              >
+                📖 একটু পড়ে দেখুন
+              </button>
+            )}
           </div>
 
           {/* Right: Book Info */}
@@ -188,6 +203,12 @@ export default function BookDetailClient({ book, relatedBooks }) {
               className={`${styles.tab} ${activeTab === 'author' ? styles.tabActive : ''}`}
               onClick={() => setActiveTab('author')}
             >লেখক</button>
+            {samplePdfUrl && (
+              <button
+                className={`${styles.tab} ${activeTab === 'preview' ? styles.tabActive : ''}`}
+                onClick={() => setActiveTab('preview')}
+              >📖 একটু পড়ে দেখুন</button>
+            )}
           </div>
           <div className={styles.tabContent}>
             {activeTab === 'description' && (
@@ -197,6 +218,25 @@ export default function BookDetailClient({ book, relatedBooks }) {
               <div>
                 <h3 style={{ marginBottom: '8px' }}>{authorName}</h3>
                 <p>{book.author?.bio || 'লেখকের তথ্য পাওয়া যায়নি।'}</p>
+              </div>
+            )}
+            {activeTab === 'preview' && samplePdfUrl && (
+              <div className={styles.previewContent}>
+                {isPdf ? (
+                  <iframe
+                    src={samplePdfUrl}
+                    className={styles.pdfViewer}
+                    title="বইয়ের স্যাম্পল"
+                  />
+                ) : (
+                  <div className={styles.previewImageWrap}>
+                    <img
+                      src={samplePdfUrl}
+                      alt={`${title} - একটু পড়ে দেখুন`}
+                      className={styles.previewImage}
+                    />
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -215,6 +255,35 @@ export default function BookDetailClient({ book, relatedBooks }) {
             </div>
           </div>
         </section>
+      )}
+
+      {/* Preview Modal */}
+      {showPreview && samplePdfUrl && (
+        <div className={styles.modalOverlay} onClick={() => setShowPreview(false)}>
+          <div className={styles.previewModal} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <h3 className={styles.modalTitle}>📖 একটু পড়ে দেখুন — {title}</h3>
+              <button className={styles.modalClose} onClick={() => setShowPreview(false)}>✕</button>
+            </div>
+            <div className={styles.modalBody}>
+              {isPdf ? (
+                <iframe
+                  src={samplePdfUrl}
+                  className={styles.modalPdfViewer}
+                  title="বইয়ের স্যাম্পল"
+                />
+              ) : (
+                <div className={styles.modalImageWrap}>
+                  <img
+                    src={samplePdfUrl}
+                    alt={`${title} - একটু পড়ে দেখুন`}
+                    className={styles.modalImage}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
