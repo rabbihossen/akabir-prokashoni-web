@@ -55,7 +55,7 @@ export default function Footer() {
             <ul className={styles.colContact}>
               <li>বাংলাবাজার, ঢাকা-১১০০</li>
               <li>ফোন: +880 1718763978</li>
-              <li>ইমেইল: info@akabir.com</li>
+              <li>ইমেইল: akabirprokashoni@gmail.com</li>
             </ul>
           </div>
         </div>
