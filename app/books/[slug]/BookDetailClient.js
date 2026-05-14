@@ -64,8 +64,17 @@ export default function BookDetailClient({ book, relatedBooks }) {
       imgUrl = imgUrl.replace('/upload/', `/upload/pg_${page}/`);
     }
     
-    // Change extension to .jpg
-    imgUrl = imgUrl.replace(/\.pdf($|\?)/i, '.jpg$1');
+    // Change extension to .jpg or append it if missing
+    if (imgUrl.toLowerCase().includes('.pdf')) {
+      imgUrl = imgUrl.replace(/\.pdf($|\?)/i, '.jpg$1');
+    } else {
+      // If there's no extension, append .jpg before query params if any
+      if (imgUrl.includes('?')) {
+        imgUrl = imgUrl.replace('?', '.jpg?');
+      } else {
+        imgUrl += '.jpg';
+      }
+    }
     
     return imgUrl;
   };

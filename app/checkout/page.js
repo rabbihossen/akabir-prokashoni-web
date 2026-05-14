@@ -154,7 +154,7 @@ export default function CheckoutPage() {
                 <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
                   <div style={{ width: '40px', height: '56px', borderRadius: '4px', background: '#f1f5f9', overflow: 'hidden', flexShrink: 0 }}>
                     {item.coverImage ? (
-                      <img src={item.coverImage} alt={item.title} style={{ width: '100%', height: '100%', object-fit: 'cover' }} />
+                      <img src={item.coverImage} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     ) : (
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontSize: '18px' }}>📖</div>
                     )}

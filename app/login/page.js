@@ -22,7 +22,8 @@ export default function LoginPage() {
     try {
       if (isLogin) {
         // Login API Call
-        const res = await fetch('http://localhost:8000/api/accounts/login/', {
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+        const res = await fetch(`${API_URL}/accounts/login/`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username: phone, password })
@@ -45,7 +46,8 @@ export default function LoginPage() {
         const [firstName, ...lastNameArr] = name.split(' ');
         const lastName = lastNameArr.join(' ');
         
-        const res = await fetch('http://localhost:8000/api/accounts/register/', {
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+        const res = await fetch(`${API_URL}/accounts/register/`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ phone, password, first_name: firstName, last_name: lastName })
