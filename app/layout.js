@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
     '@type': 'Organization',
     name: 'Akabir Prokashoni',
     url: 'https://akabirprokashoni.com',
-    logo: 'https://akabirprokashoni.com/logo.jpg',
+    logo: 'https://akabirprokashoni.com/logo.png',
     contactPoint: {
       '@type': 'ContactPoint',
       telephone: '+8801718763978',

@@ -48,7 +48,7 @@ export default function Header() {
               <span className={`${styles.hamburger} ${menuOpen ? styles.hamburgerOpen : ''}`} />
             </button>
             <Link href="/" className={styles.logo}>
-              <img src="/images/logo.jpg" alt="Akabir Prokashoni" width="200" height="40" className={styles.logoImg} />
+              <img src="/images/logo.png" alt="Akabir Prokashoni" width="240" height="85" className={styles.logoImg} />
             </Link>
           </div>
 

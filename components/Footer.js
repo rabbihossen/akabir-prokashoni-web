@@ -11,7 +11,7 @@ export default function Footer() {
           <div className={styles.footerBrand}>
             <Link href="/" className={styles.brandLogo}>
               <Image 
-                src="/images/logo.jpg" 
+                src="/images/logo.png" 
                 alt="আকাবির প্রকাশনী" 
                 width={150} 
                 height={50} 
