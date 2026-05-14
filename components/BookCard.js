@@ -66,23 +66,13 @@ export default function BookCard({ book }) {
           )}
         </div>
 
-        <button
+        <Link
+          href={`/books/${slug}`}
           className={styles.addBtn}
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            addToCart({
-              id: book.id,
-              title: title,
-              price: price,
-              coverImage: finalCoverImage,
-              author: authorName,
-              slug: slug
-            });
-          }}
+          style={{ textAlign: 'center', display: 'block', textDecoration: 'none' }}
         >
-          কার্টে যোগ করুন
-        </button>
+          বিস্তারিত দেখুন
+        </Link>
       </div>
     </div>
   );

@@ -155,73 +155,97 @@ export default function BookDetailClient({ book, relatedBooks }) {
 
           {/* Right: Book Info */}
           <div className={styles.infoSection}>
-            <h1 className={styles.bookTitle}>{title}</h1>
+            <h1 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '12px', color: '#1a1a1a', lineHeight: '1.3' }}>{title}</h1>
 
-            {authorName && (
-              <Link href={`/books?author=${authorSlug}`} className={styles.authorLink}>
-                {authorName}
-              </Link>
+            <div style={{ fontSize: '16px', color: '#444', marginBottom: '6px' }}>
+              <span style={{ color: '#555' }}>লেখক: </span>
+              {authorName ? (
+                <Link href={`/books?author=${authorSlug}`} style={{ color: '#d12027', textDecoration: 'none' }}>
+                  {authorName}
+                </Link>
+              ) : 'অজানা'}
+            </div>
+
+            <div style={{ fontSize: '16px', color: '#444', marginBottom: '12px' }}>
+              <span style={{ color: '#555' }}>বিষয়: </span>
+              {categoryName ? (
+                <Link href={`/books?category=${categorySlug}`} style={{ color: '#d12027', textDecoration: 'none' }}>
+                  {categoryName}
+                </Link>
+              ) : 'সাধারণ'}
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '20px' }}>
+              <div style={{ color: '#f39c12', fontSize: '18px', letterSpacing: '2px' }}>
+                ☆☆☆☆☆
+              </div>
+              <span style={{ color: '#777', fontSize: '14px' }}>({book.review_count || 0} review)</span>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '5px' }}>
+              <span style={{ fontSize: '26px', fontWeight: 'bold', color: '#333' }}>
+                {price.toLocaleString('bn-BD')} টাকা
+              </span>
+              {discount > 0 && (
+                <span style={{ color: '#d12027', fontSize: '18px', fontWeight: 'bold' }}>
+                  {discount}% ছাড়
+                </span>
+              )}
+            </div>
+            
+            {originalPrice > price && (
+              <div style={{ color: '#666', fontSize: '20px', textDecoration: 'line-through', marginBottom: '25px' }}>
+                {originalPrice.toLocaleString('bn-BD')} টাকা
+              </div>
             )}
 
-            {/* Price Block */}
-            <div className={styles.priceBlock}>
-              <span className={styles.currentPrice}>৳{price.toLocaleString()}</span>
-              {originalPrice > price && (
-                <>
-                  <span className={styles.originalPrice}>৳{originalPrice.toLocaleString()}</span>
-                  <span className={styles.saveBadge}>৳{(originalPrice - price).toLocaleString()} সাশ্রয়</span>
-                </>
-              )}
-            </div>
+            <div style={{ borderBottom: '1px dotted #ccc', margin: '25px 0' }}></div>
 
-            {/* Stock */}
-            <div className={styles.stockInfo}>
-              {stock > 0 ? (
-                <span className={styles.inStock}>স্টকে আছে ({stock} পিস)</span>
-              ) : (
-                <span className={styles.outOfStock}>স্টক শেষ</span>
-              )}
-            </div>
-
-            {/* Quantity + Buttons */}
-            <div className={styles.actionArea}>
-              <div className={styles.quantityRow}>
-                <span className={styles.qtyLabel}>পরিমাণ:</span>
-                <div className={styles.qtyControl}>
-                  <button onClick={() => setQuantity(Math.max(1, quantity - 1))}>−</button>
-                  <span>{quantity}</span>
-                  <button onClick={() => setQuantity(quantity + 1)}>+</button>
-                </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+              {/* Quantity Control */}
+              <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #ddd', borderRadius: '4px', height: '44px', background: '#fff' }}>
+                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} style={{ width: '40px', height: '100%', background: '#f8f8f8', border: 'none', borderRight: '1px solid #ddd', fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', color: '#333', borderTopLeftRadius: '4px', borderBottomLeftRadius: '4px' }}>−</button>
+                <div style={{ width: '45px', textAlign: 'center', fontSize: '16px', color: '#333', fontWeight: '500' }}>{quantity}</div>
+                <button onClick={() => setQuantity(quantity + 1)} style={{ width: '40px', height: '100%', background: '#f8f8f8', border: 'none', borderLeft: '1px solid #ddd', fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', color: '#333', borderTopRightRadius: '4px', borderBottomRightRadius: '4px' }}>+</button>
               </div>
+
+              {/* Action Buttons */}
               <button
-                className={styles.cartBtn}
                 onClick={handleAddToCart}
                 disabled={stock <= 0}
+                style={{ background: '#e32636', color: '#fff', border: 'none', borderRadius: '4px', height: '44px', padding: '0 28px', fontSize: '16px', fontWeight: '600', cursor: stock > 0 ? 'pointer' : 'not-allowed', opacity: stock > 0 ? 1 : 0.6, transition: 'background 0.2s' }}
+                onMouseOver={(e) => e.target.style.background = '#cc2230'}
+                onMouseOut={(e) => e.target.style.background = '#e32636'}
               >
-                {addedToCart ? 'যোগ করা হয়েছে' : 'কার্টে যোগ করুন'}
+                {addedToCart ? '✓ যোগ করা হয়েছে' : 'কার্টে যোগ করুন'}
               </button>
               <button
-                className={styles.buyBtn}
                 onClick={handleBuyNow}
                 disabled={stock <= 0}
+                style={{ background: '#e32636', color: '#fff', border: 'none', borderRadius: '4px', height: '44px', padding: '0 28px', fontSize: '16px', fontWeight: '600', cursor: stock > 0 ? 'pointer' : 'not-allowed', opacity: stock > 0 ? 1 : 0.6, transition: 'background 0.2s' }}
+                onMouseOver={(e) => e.target.style.background = '#cc2230'}
+                onMouseOut={(e) => e.target.style.background = '#e32636'}
               >
                 এখনই কিনুন
               </button>
             </div>
 
-            {/* Book Specs */}
-            <div className={styles.specsTable}>
-              <h3 className={styles.specsTitle}>বইয়ের তথ্য</h3>
-              <table>
-                <tbody>
-                  {authorName && <tr><td>লেখক</td><td>{authorName}</td></tr>}
-                  {categoryName && <tr><td>বিষয়</td><td>{categoryName}</td></tr>}
-                  {book.pages && <tr><td>পৃষ্ঠা</td><td>{book.pages}</td></tr>}
-                  {book.edition && <tr><td>সংস্করণ</td><td>{book.edition}</td></tr>}
-                  <tr><td>ভাষা</td><td>{book.language || 'বাংলা'}</td></tr>
-                  {book.isbn && <tr><td>ISBN</td><td>{book.isbn}</td></tr>}
-                </tbody>
-              </table>
+            {stock <= 0 && <div style={{ color: '#e32636', marginTop: '15px', fontWeight: 'bold' }}>দুঃখিত, বইটি বর্তমানে স্টকে নেই।</div>}
+
+            <div style={{ borderBottom: '1px dotted #ccc', margin: '35px 0 20px 0' }}></div>
+
+            {/* Social Share Icons */}
+            <div style={{ display: 'flex', gap: '12px' }}>
+              {['fb', 'twitter', 'linkedin', 'whatsapp', 'pinterest', 'email'].map((platform) => (
+                <button key={platform} style={{ width: '42px', height: '42px', border: '1px solid #e0e0e0', borderRadius: '8px', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.2s', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }} onMouseOver={(e) => e.currentTarget.style.borderColor = '#ccc'} onMouseOut={(e) => e.currentTarget.style.borderColor = '#e0e0e0'}>
+                  {platform === 'fb' && <span style={{ color: '#1877F2', fontWeight: 'bold', fontSize: '18px', fontFamily: 'Arial' }}>f</span>}
+                  {platform === 'twitter' && <span style={{ color: '#000', fontWeight: 'bold', fontSize: '18px', fontFamily: 'Arial' }}>𝕏</span>}
+                  {platform === 'linkedin' && <span style={{ color: '#0A66C2', fontWeight: 'bold', fontSize: '16px', fontFamily: 'Arial' }}>in</span>}
+                  {platform === 'whatsapp' && <span style={{ color: '#25D366', fontSize: '18px' }}>💬</span>}
+                  {platform === 'pinterest' && <span style={{ color: '#E60023', fontWeight: 'bold', fontStyle: 'italic', fontSize: '18px', fontFamily: 'serif' }}>p</span>}
+                  {platform === 'email' && <span style={{ color: '#D44638', fontSize: '18px' }}>✉</span>}
+                </button>
+              ))}
             </div>
           </div>
         </div>
