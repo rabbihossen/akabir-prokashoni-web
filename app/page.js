@@ -52,7 +52,7 @@ export default async function Home() {
                 style={{ animationDelay: `${i * 0.05}s`, '--cat-color': cat.color || '#3B82F6' }}
               >
                 <span className={styles.catName}>{cat.name}</span>
-                <span className={styles.catCount}>{cat.count || 0} বই</span>
+                <span className={styles.catCount}>{cat.book_count || 0} বই</span>
               </Link>
             ))}
           </div>
