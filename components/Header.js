@@ -28,7 +28,7 @@ export default function Header() {
       {/* Top Bar */}
       <div className={styles.topBar}>
         <div className={`container ${styles.topBarInner}`}>
-          <span>Phone: +880 1XXX-XXXXXX</span>
+          <span>Phone: +880 1718763978</span>
           <div className={styles.topBarRight}>
             <Link href="/track">অর্ডার ট্র্যাক করুন</Link>
             <Link href="/account">আমার একাউন্ট</Link>
