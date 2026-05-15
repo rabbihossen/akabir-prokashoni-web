@@ -99,7 +99,7 @@
 .actions {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--space-3);
 }
 
 .cartBtn, .actionBtn {
@@ -228,6 +228,19 @@
   transform: rotate(-45deg);
 }
 
+/* Overlay behind mobile nav */
+.navOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 97;
+  animation: fadeIn 0.2s ease;
+}
+.navOverlayVisible {
+  display: block;
+}
+
 /* Navigation */
 .nav {
   background: var(--color-primary);
@@ -261,6 +274,10 @@
 .navLinkHighlight:hover {
   background: var(--color-accent-dark);
   color: #1A1A1A !important;
+}
+
+.mobileOnlyLinks {
+  display: none;
 }
 
 /* Dropdown */
@@ -312,10 +329,23 @@
     z-index: 99;
     background: white;
   }
-  .mobileSearchBtn { display: flex; width: 36px; height: 36px; background: transparent; border: none; padding: 0; }
-  .menuToggle { display: flex; width: 36px; height: 36px; margin-right: 0; background: transparent; border: none; padding: 0; }
-  .logoImg { height: 45px; } /* Increased for mobile */
-  .actionBtn, .cartBtn { width: 36px; height: 36px; }
+  .headerInner {
+    gap: var(--space-2);
+    padding-left: var(--space-2);
+    padding-right: var(--space-2);
+  }
+  .leftSection {
+    gap: var(--space-1);
+  }
+  .actions {
+    gap: var(--space-2);
+  }
+  .mobileSearchBtn { display: flex; width: 32px; height: 32px; background: transparent; border: none; padding: 0; }
+  .mobileSearchBtn svg { width: 20px; height: 20px; }
+  .menuToggle { display: flex; width: 32px; height: 32px; margin-right: 0; background: transparent; border: none; padding: 0; }
+  .logoImg { height: 40px; }
+  .actionBtn, .cartBtn { width: 32px; height: 32px; }
+  .actionBtn svg, .cartBtn svg { width: 18px; height: 18px; }
   .signInBtn { height: 32px; padding: 0 12px; font-size: 14px; border-radius: 4px; }
   .nav {
     display: block;
@@ -369,5 +399,13 @@
   .dropdownMenu a:hover {
     background: rgba(255,255,255,0.1);
     color: white !important;
+  }
+  .mobileOnlyLinks {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: 5px;
   }
 }

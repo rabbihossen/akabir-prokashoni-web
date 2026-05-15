@@ -101,6 +101,12 @@ export default function Header() {
           </div>
         </div>
 
+        {/* Overlay - closes menu when clicking outside */}
+        <div
+          className={`${styles.navOverlay} ${menuOpen ? styles.navOverlayVisible : ''}`}
+          onClick={closeMenu}
+        />
+
         {/* Navigation */}
         <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ''}`}>
           <div className={`container ${styles.navInner}`}>
@@ -126,6 +132,16 @@ export default function Header() {
             <Link href="/books?filter=new" className={styles.navLink} onClick={closeMenu}>নতুন প্রকাশিত</Link>
             <Link href="/books?filter=preorder" className={styles.navLink} onClick={closeMenu}>প্রি-অর্ডার</Link>
             <Link href="/books?filter=offer" className={styles.navLinkHighlight} onClick={closeMenu}>আজকের অফার</Link>
+
+            {/* Mobile Only Links at the bottom of the hamburger menu */}
+            <div className={styles.mobileOnlyLinks}>
+              <a href="https://wa.me/8801718763978" target="_blank" rel="noopener noreferrer" className={styles.navLink} onClick={closeMenu}>
+                <span style={{ fontSize: '18px', marginRight: '6px' }}>💬</span> যোগাযোগ করুন
+              </a>
+              <Link href="/account" className={styles.navLink} onClick={closeMenu}>
+                <span style={{ fontSize: '18px', marginRight: '6px' }}>👤</span> আমার প্রোফাইল
+              </Link>
+            </div>
           </div>
         </nav>
       </header>

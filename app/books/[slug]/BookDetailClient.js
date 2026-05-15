@@ -234,19 +234,6 @@ export default function BookDetailClient({ book, relatedBooks }) {
 
             <div style={{ borderBottom: '1px dotted #ccc', margin: '35px 0 20px 0' }}></div>
 
-            {/* Social Share Icons */}
-            <div style={{ display: 'flex', gap: '12px' }}>
-              {['fb', 'twitter', 'linkedin', 'whatsapp', 'pinterest', 'email'].map((platform) => (
-                <button key={platform} style={{ width: '42px', height: '42px', border: '1px solid #e0e0e0', borderRadius: '8px', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.2s', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }} onMouseOver={(e) => e.currentTarget.style.borderColor = '#ccc'} onMouseOut={(e) => e.currentTarget.style.borderColor = '#e0e0e0'}>
-                  {platform === 'fb' && <span style={{ color: '#1877F2', fontWeight: 'bold', fontSize: '18px', fontFamily: 'Arial' }}>f</span>}
-                  {platform === 'twitter' && <span style={{ color: '#000', fontWeight: 'bold', fontSize: '18px', fontFamily: 'Arial' }}>𝕏</span>}
-                  {platform === 'linkedin' && <span style={{ color: '#0A66C2', fontWeight: 'bold', fontSize: '16px', fontFamily: 'Arial' }}>in</span>}
-                  {platform === 'whatsapp' && <span style={{ color: '#25D366', fontSize: '18px' }}>💬</span>}
-                  {platform === 'pinterest' && <span style={{ color: '#E60023', fontWeight: 'bold', fontStyle: 'italic', fontSize: '18px', fontFamily: 'serif' }}>p</span>}
-                  {platform === 'email' && <span style={{ color: '#D44638', fontSize: '18px' }}>✉</span>}
-                </button>
-              ))}
-            </div>
           </div>
         </div>
 

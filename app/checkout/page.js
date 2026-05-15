@@ -5,16 +5,47 @@ import { useCart } from '@/lib/CartContext';
 import { districts } from '@/lib/data';
 import styles from './page.module.css';
 import { createOrder } from '@/lib/api';
+import { useAuth } from '@/lib/AuthContext';
 
 export default function CheckoutPage() {
   const { cart, totalPrice, clearCart } = useCart();
+  const { user, token } = useAuth();
+  
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderId, setOrderId] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('cod');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   
+  const [createAccount, setCreateAccount] = useState(false);
+  
+  const [defaultValues, setDefaultValues] = useState({
+    name: '', phone: '', district: '', address: ''
+  });
+
   const deliveryCharge = totalPrice >= 500 ? 0 : 60;
+
+  useEffect(() => {
+    if (user) {
+      setDefaultValues(prev => ({ ...prev, name: user.name || '', phone: user.phone || '' }));
+      if (token) {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/accounts/profile/`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.profile) {
+            setDefaultValues(prev => ({
+              ...prev,
+              district: data.profile.city || prev.district,
+              address: data.profile.address || prev.address
+            }));
+          }
+        })
+        .catch(err => console.error(err));
+      }
+    }
+  }, [user, token]);
 
   // Catch payment errors from URL on redirect back from SSLCommerz
   useEffect(() => {
@@ -34,10 +65,12 @@ export default function CheckoutPage() {
     const orderData = {
       customer_name: formData.get('name'),
       phone: formData.get('phone'),
-      email: formData.get('email'),
+      alt_phone: formData.get('alt_phone') || '',
       district: formData.get('district'),
       address: formData.get('address'),
       payment_method: paymentMethod,
+      create_account: createAccount,
+      password: formData.get('password') || '',
       items: cart.map(item => ({ book_id: item.id, slug: item.slug, quantity: item.quantity }))
     };
 
@@ -101,19 +134,19 @@ export default function CheckoutPage() {
           <div className={styles.formGrid}>
             <div className="input-group">
               <label className="input-label">পুরো নাম *</label>
-              <input name="name" className="input" required placeholder="আপনার নাম" />
+              <input name="name" className="input" required placeholder="আপনার নাম" defaultValue={defaultValues.name} />
             </div>
             <div className="input-group">
               <label className="input-label">মোবাইল নম্বর *</label>
-              <input name="phone" className="input" required placeholder="01XXXXXXXXX" />
+              <input name="phone" className="input" required placeholder="01XXXXXXXXX" defaultValue={defaultValues.phone} />
             </div>
             <div className="input-group">
-              <label className="input-label">ইমেইল</label>
-              <input name="email" className="input" type="email" placeholder="email@example.com" />
+              <label className="input-label">বিকল্প মোবাইল নম্বর</label>
+              <input name="alt_phone" className="input" placeholder="01XXXXXXXXX (ঐচ্ছিক)" />
             </div>
             <div className="input-group">
               <label className="input-label">জেলা *</label>
-              <select name="district" className="input" required>
+              <select name="district" className="input" required value={defaultValues.district} onChange={(e) => setDefaultValues({...defaultValues, district: e.target.value})}>
                 <option value="">জেলা নির্বাচন করুন</option>
                 {districts.map(d => <option key={d} value={d}>{d}</option>)}
               </select>
@@ -121,8 +154,32 @@ export default function CheckoutPage() {
           </div>
           <div className="input-group" style={{ marginTop: 'var(--space-4)' }}>
             <label className="input-label">সম্পূর্ণ ঠিকানা *</label>
-            <textarea name="address" className="input" rows="3" required placeholder="বাড়ি, রোড, এলাকা, পোস্ট কোড" style={{ resize: 'vertical' }} />
+            <textarea name="address" className="input" rows="3" required placeholder="বাড়ি, রোড, এলাকা, পোস্ট কোড" style={{ resize: 'vertical' }} defaultValue={defaultValues.address} />
           </div>
+          
+          {!user && (
+            <div style={{ marginTop: '1.5rem', background: '#f8fafc', padding: '1rem', borderRadius: '4px', border: '1px solid #e2e8f0' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: '500' }}>
+                <input 
+                  type="checkbox" 
+                  checked={createAccount} 
+                  onChange={(e) => setCreateAccount(e.target.checked)} 
+                  style={{ width: '18px', height: '18px', accentColor: 'var(--color-primary)' }}
+                />
+                আমার তথ্য সেভ করুন (পরবর্তীতে এক ক্লিকে অর্ডারের জন্য)
+              </label>
+              
+              {createAccount && (
+                <div className="input-group" style={{ marginTop: '1rem' }}>
+                  <label className="input-label">অ্যাকাউন্ট পাসওয়ার্ড *</label>
+                  <input name="password" type="password" className="input" required placeholder="কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড দিন" minLength="6" />
+                  <p style={{ fontSize: '12px', color: 'var(--color-text-secondary)', marginTop: '4px' }}>
+                    এই পাসওয়ার্ড দিয়ে পরবর্তীতে মোবাইল নাম্বার ব্যবহার করে লগইন করতে পারবেন।
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Payment */}
           <h2 className={styles.sectionTitle} style={{ marginTop: 'var(--space-8)' }}>পেমেন্ট মেথড</h2>

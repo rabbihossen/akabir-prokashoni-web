@@ -23,6 +23,9 @@ export default function AdminLayout({ children }) {
           <Link href="/admin/categories" className={`${styles.navLink} ${pathname.includes('/categories') ? styles.navActive : ''}`}>
             📂 ক্যাটাগরি ম্যানেজমেন্ট
           </Link>
+          <Link href="/admin/authors" className={`${styles.navLink} ${pathname.includes('/authors') ? styles.navActive : ''}`}>
+            ✍️ লেখক ম্যানেজমেন্ট
+          </Link>
           <Link href="/admin/hero" className={`${styles.navLink} ${pathname.includes('/hero') ? styles.navActive : ''}`}>
             🖼️ হিরো স্লাইডার
           </Link>

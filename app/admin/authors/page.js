@@ -1,26 +1,27 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { getCategories, createCategory, updateCategory, deleteCategory } from '@/lib/api';
-import styles from './page.module.css';
+import { getAuthors, createAuthor, updateAuthor, deleteAuthor } from '@/lib/api';
+import styles from '../categories/page.module.css';
 
-export default function AdminCategories() {
-  const [categories, setCategories] = useState([]);
+export default function AdminAuthors() {
+  const [authors, setAuthors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [editingSlug, setEditingSlug] = useState(null);
   
   const [formData, setFormData] = useState({
-    name: '', slug: '', icon: '', description: '', order: 0
+    name: '', slug: '', bio: ''
   });
+  const [file, setFile] = useState(null);
 
   const fetchData = async () => {
     try {
       setLoading(true);
-      const data = await getCategories();
-      setCategories(data.results || data || []);
+      const data = await getAuthors();
+      setAuthors(data.results || data || []);
     } catch (error) {
-      console.error("Error fetching categories:", error);
+      console.error("Error fetching authors:", error);
     } finally {
       setLoading(false);
     }
@@ -35,17 +36,25 @@ export default function AdminCategories() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleFileChange = (e) => {
+    if (e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+    }
+  };
+
   const openAddForm = () => {
     setEditingSlug(null);
-    setFormData({ name: '', slug: '', icon: '', description: '', order: categories.length });
+    setFormData({ name: '', slug: '', bio: '' });
+    setFile(null);
     setShowForm(true);
   };
 
-  const openEditForm = (cat) => {
-    setEditingSlug(cat.slug);
+  const openEditForm = (author) => {
+    setEditingSlug(author.slug);
     setFormData({
-      name: cat.name, slug: cat.slug, icon: cat.icon, description: cat.description, order: cat.order
+      name: author.name, slug: author.slug, bio: author.bio || ''
     });
+    setFile(null);
     setShowForm(true);
   };
 
@@ -54,16 +63,18 @@ export default function AdminCategories() {
     setIsSubmitting(true);
     
     try {
-      // Need FormData for backend compatibility if they expect multipart or simple JSON
       const data = new FormData();
       Object.keys(formData).forEach(key => data.append(key, formData[key]));
+      if (file) {
+        data.append('image', file);
+      }
 
       if (editingSlug) {
-        await updateCategory(editingSlug, data);
-        alert('ক্যাটাগরি আপডেট হয়েছে!');
+        await updateAuthor(editingSlug, data);
+        alert('লেখকের তথ্য আপডেট হয়েছে!');
       } else {
-        await createCategory(data);
-        alert('নতুন ক্যাটাগরি যোগ হয়েছে!');
+        await createAuthor(data);
+        alert('নতুন লেখক যোগ হয়েছে!');
       }
       
       setShowForm(false);
@@ -76,11 +87,11 @@ export default function AdminCategories() {
   };
 
   const handleDelete = async (slug) => {
-    if (window.confirm('আপনি কি নিশ্চিত যে এই ক্যাটাগরিটি ডিলিট করতে চান? এর অধীনে থাকা বইগুলো আন-ক্যাটাগরাইজড হয়ে যাবে!')) {
+    if (window.confirm('আপনি কি নিশ্চিত যে এই লেখককে ডিলিট করতে চান? এর অধীনে থাকা বইগুলো আন-অ্যাসাইন হয়ে যাবে!')) {
       try {
-        await deleteCategory(slug);
-        setCategories(prev => prev.filter(c => c.slug !== slug));
-        alert('ক্যাটাগরি সফলভাবে ডিলিট হয়েছে!');
+        await deleteAuthor(slug);
+        setAuthors(prev => prev.filter(c => c.slug !== slug));
+        alert('লেখক সফলভাবে ডিলিট হয়েছে!');
       } catch (error) {
         alert('ডিলিট করতে সমস্যা হয়েছে।');
       }
@@ -90,9 +101,9 @@ export default function AdminCategories() {
   return (
     <>
       <div className={styles.topBar}>
-        <h1>📂 ক্যাটাগরি ম্যানেজমেন্ট</h1>
+        <h1>✍️ লেখক ম্যানেজমেন্ট</h1>
         <button className="btn btn-primary" onClick={openAddForm}>
-          + নতুন ক্যাটাগরি
+          + নতুন লেখক
         </button>
       </div>
 
@@ -104,32 +115,34 @@ export default function AdminCategories() {
             <table className={styles.table}>
               <thead>
                 <tr>
-                  <th>আইকন</th>
+                  <th>ছবি</th>
                   <th>নাম</th>
                   <th>স্লাগ</th>
-                  <th>ক্রম</th>
-                  <th>বইয়ের সংখ্যা</th>
                   <th>অ্যাকশন</th>
                 </tr>
               </thead>
               <tbody>
-                {categories.map(cat => (
-                  <tr key={cat.id}>
-                    <td style={{ fontSize: '1.5rem' }}>{cat.icon}</td>
-                    <td><strong>{cat.name}</strong></td>
-                    <td>{cat.slug}</td>
-                    <td>{cat.order}</td>
-                    <td>{cat.book_count || 0}</td>
+                {authors.map(author => (
+                  <tr key={author.id}>
+                    <td>
+                      {author.image ? (
+                        <img src={author.image} alt={author.name} style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} />
+                      ) : (
+                        <span style={{ fontSize: '1.5rem' }}>👤</span>
+                      )}
+                    </td>
+                    <td><strong>{author.name}</strong></td>
+                    <td>{author.slug}</td>
                     <td>
                       <div className={styles.actionBtns}>
-                        <button className={styles.editBtn} onClick={() => openEditForm(cat)} title="সম্পাদনা করুন">✏️</button>
-                        <button className={styles.deleteBtn} onClick={() => handleDelete(cat.slug)} title="ডিলিট করুন">🗑️</button>
+                        <button className={styles.editBtn} onClick={() => openEditForm(author)} title="সম্পাদনা করুন">✏️</button>
+                        <button className={styles.deleteBtn} onClick={() => handleDelete(author.slug)} title="ডিলিট করুন">🗑️</button>
                       </div>
                     </td>
                   </tr>
                 ))}
-                {categories.length === 0 && (
-                  <tr><td colSpan="6" style={{ textAlign: 'center', padding: '20px' }}>কোনো ক্যাটাগরি পাওয়া যায়নি</td></tr>
+                {authors.length === 0 && (
+                  <tr><td colSpan="4" style={{ textAlign: 'center', padding: '20px' }}>কোনো লেখক পাওয়া যায়নি</td></tr>
                 )}
               </tbody>
             </table>
@@ -142,7 +155,7 @@ export default function AdminCategories() {
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
             <div className={styles.modalHeader}>
-              <h2>{editingSlug ? 'ক্যাটাগরি সম্পাদনা' : 'নতুন ক্যাটাগরি যোগ করুন'}</h2>
+              <h2>{editingSlug ? 'লেখক সম্পাদনা' : 'নতুন লেখক যোগ করুন'}</h2>
               <button className={styles.modalClose} onClick={() => setShowForm(false)}>×</button>
             </div>
             <form onSubmit={handleSubmit} className={styles.catForm}>
@@ -155,16 +168,12 @@ export default function AdminCategories() {
                 <input type="text" name="slug" value={formData.slug} onChange={handleInputChange} className="form-control" placeholder="ফাঁকা রাখলে স্বয়ংক্রিয়ভাবে তৈরি হবে" />
               </div>
               <div>
-                <label>আইকন (ইমোজি)</label>
-                <input type="text" name="icon" value={formData.icon} onChange={handleInputChange} className="form-control" />
+                <label>পরিচিতি (Bio)</label>
+                <textarea name="bio" value={formData.bio} onChange={handleInputChange} className="form-control" rows="3"></textarea>
               </div>
               <div>
-                <label>বিবরণ</label>
-                <textarea name="description" value={formData.description} onChange={handleInputChange} className="form-control" rows="3"></textarea>
-              </div>
-              <div>
-                <label>সাজানোর ক্রম</label>
-                <input type="number" name="order" value={formData.order} onChange={handleInputChange} className="form-control" />
+                <label>ছবি</label>
+                <input type="file" name="image" accept="image/*" onChange={handleFileChange} className="form-control" />
               </div>
 
               <div className={styles.formActions}>
