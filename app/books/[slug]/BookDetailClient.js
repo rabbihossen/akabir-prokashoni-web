@@ -21,10 +21,10 @@ export default function BookDetailClient({ book, relatedBooks }) {
   const price = Number(book.price) || 0;
   const originalPrice = Number(book.original_price) || 0;
   const coverImage = book.cover || book.cover_image || null;
-  const authorName = book.author?.name || book.author_name || '';
-  const authorSlug = book.author?.slug || '';
-  const categoryName = book.category?.name || book.category_name || '';
-  const categorySlug = book.category?.slug || '';
+  const authorName = book.author_details?.name || book.author?.name || book.author_name || '';
+  const authorSlug = book.author_details?.slug || book.author?.slug || '';
+  const categoryName = book.category_details?.name || book.category?.name || book.category_name || '';
+  const categorySlug = book.category_details?.slug || book.category?.slug || '';
   const stock = book.stock || 0;
   const discount = originalPrice > price
     ? Math.round(((originalPrice - price) / originalPrice) * 100)
