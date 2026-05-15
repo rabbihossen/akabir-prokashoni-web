@@ -334,7 +334,7 @@ export default function BookDetailClient({ book, relatedBooks }) {
             {activeTab === 'author' && (
               <div className={styles.authorContent}>
                 <h3 className={styles.contentTitle}>{authorName}</h3>
-                <p>{book.author?.bio || 'লেখকের তথ্য পাওয়া যায়নি।'}</p>
+                <p>{book.author_bio || book.author_details?.bio || book.author?.bio || 'লেখকের তথ্য পাওয়া যায়নি।'}</p>
               </div>
             )}
           </div>
