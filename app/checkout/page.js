@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useCart } from '@/lib/CartContext';
 import { districts } from '@/lib/data';
 import styles from './page.module.css';
-import { createOrder } from '@/lib/api';
+import { createOrder, getSiteSettings } from '@/lib/api';
 import { useAuth } from '@/lib/AuthContext';
 
 export default function CheckoutPage() {
@@ -22,8 +22,23 @@ export default function CheckoutPage() {
   const [defaultValues, setDefaultValues] = useState({
     name: '', phone: '', district: '', address: ''
   });
+  const [siteSettings, setSiteSettings] = useState(null);
 
-  const deliveryCharge = totalPrice >= 500 ? 0 : 60;
+  useEffect(() => {
+    getSiteSettings().then(data => {
+      if (data) setSiteSettings(data);
+    }).catch(console.error);
+  }, []);
+
+  let deliveryCharge = 60; // fallback
+  if (siteSettings) {
+    deliveryCharge = (defaultValues.district === 'Dhaka' || defaultValues.district === 'ঢাকা') 
+      ? siteSettings.delivery_charge_dhaka 
+      : siteSettings.delivery_charge_outside;
+  }
+  // Optional: Keep free delivery for large orders if you had it, or just use the settings directly.
+  // if (totalPrice >= 1000) deliveryCharge = 0;
+
 
   useEffect(() => {
     if (user) {
