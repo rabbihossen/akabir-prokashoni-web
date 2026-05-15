@@ -1,23 +1,29 @@
 import Link from 'next/link';
 import BookCard from '@/components/BookCard';
 import InfiniteBookList from '@/components/InfiniteBookList';
-import { getBooks, getCategories } from '@/lib/api';
+import { getBooks, getCategories, getAuthors } from '@/lib/api';
 import styles from './page.module.css';
 
 export default async function BooksPage({ searchParams }) {
   const resolvedParams = await searchParams;
   const selectedCat = resolvedParams.category || 'all';
+  const selectedAuthor = resolvedParams.author || 'all';
   const sortBy = resolvedParams.sort || 'popular';
   const viewMode = resolvedParams.view || 'grid';
   const filter = resolvedParams.filter || ''; // new, preorder, offer
 
-  // Fetch categories for sidebar
-  const categoriesResult = await getCategories().catch(() => ({ results: [] }));
+  // Fetch categories and authors for sidebar
+  const [categoriesResult, authorsResult] = await Promise.all([
+    getCategories().catch(() => ({ results: [] })),
+    getAuthors().catch(() => ({ results: [] }))
+  ]);
   const categories = Array.isArray(categoriesResult?.results) ? categoriesResult.results : (Array.isArray(categoriesResult) ? categoriesResult : []);
+  const authors = Array.isArray(authorsResult?.results) ? authorsResult.results : (Array.isArray(authorsResult) ? authorsResult : []);
 
   // Build params for API
   const apiParams = {};
   if (selectedCat !== 'all') apiParams.category = selectedCat;
+  if (selectedAuthor !== 'all') apiParams.author = selectedAuthor;
   if (sortBy === 'new') apiParams.new_release = 'true';
   // Note: API doesn't support 'price-low' sort natively yet, this is basic mapping
   if (filter === 'new') apiParams.new_release = 'true';
@@ -67,6 +73,25 @@ export default async function BooksPage({ searchParams }) {
                 className={`${styles.filterBtn} ${selectedCat === cat.slug ? styles.filterActive : ''}`}
               >
                 {cat.name}
+              </Link>
+            ))}
+          </div>
+
+          <div className={styles.filterGroup} style={{ marginTop: '24px' }}>
+            <h3 className={styles.filterTitle}>লেখক</h3>
+            <Link
+              href={getUrl({ author: 'all' })}
+              className={`${styles.filterBtn} ${selectedAuthor === 'all' ? styles.filterActive : ''}`}
+            >
+              সকল লেখক
+            </Link>
+            {authors.map(author => (
+              <Link
+                key={author.slug}
+                href={getUrl({ author: author.slug })}
+                className={`${styles.filterBtn} ${selectedAuthor === author.slug ? styles.filterActive : ''}`}
+              >
+                {author.name}
               </Link>
             ))}
           </div>

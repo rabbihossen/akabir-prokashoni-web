@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useCart } from '@/lib/CartContext';
-import { getCategories } from '@/lib/api';
+import { getCategories, getAuthors } from '@/lib/api';
 import styles from './Header.module.css';
 
 export default function Header() {
@@ -11,6 +11,7 @@ export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [categories, setCategories] = useState([]);
+  const [authors, setAuthors] = useState([]);
 
   useEffect(() => {
     getCategories()
@@ -19,6 +20,13 @@ export default function Header() {
         setCategories(cats);
       })
       .catch(() => setCategories([]));
+      
+    getAuthors()
+      .then(data => {
+        const auts = Array.isArray(data?.results) ? data.results : (Array.isArray(data) ? data : []);
+        setAuthors(auts);
+      })
+      .catch(() => setAuthors([]));
   }, []);
 
   const closeMenu = () => setMenuOpen(false);
@@ -124,6 +132,22 @@ export default function Header() {
                   </Link>
                 ))}
                 {categories.length === 0 && (
+                  <span style={{ padding: '8px 16px', color: '#999', fontSize: '13px' }}>লোড হচ্ছে...</span>
+                )}
+              </div>
+            </div>
+
+            <div className={styles.navDropdown}>
+              <span className={styles.navLink}>
+                লেখক <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+              </span>
+              <div className={styles.dropdownMenu}>
+                {authors.map(author => (
+                  <Link key={author.slug} href={`/books?author=${author.slug}`} onClick={closeMenu}>
+                    {author.name}
+                  </Link>
+                ))}
+                {authors.length === 0 && (
                   <span style={{ padding: '8px 16px', color: '#999', fontSize: '13px' }}>লোড হচ্ছে...</span>
                 )}
               </div>
