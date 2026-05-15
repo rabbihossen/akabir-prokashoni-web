@@ -155,51 +155,55 @@ export default function BookDetailClient({ book, relatedBooks }) {
 
           {/* Right: Book Info */}
           <div className={styles.infoSection}>
-            <h1 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '12px', color: '#1a1a1a', lineHeight: '1.3' }}>{title}</h1>
+            <h1 style={{ fontSize: '28px', fontWeight: 'bold', color: '#1a1a1a', lineHeight: '1.3', margin: 0 }}>{title}</h1>
 
-            <div style={{ fontSize: '16px', color: '#444', marginBottom: '6px' }}>
-              <span style={{ color: '#555' }}>লেখক: </span>
-              {authorName ? (
-                <Link href={`/books?author=${authorSlug}`} style={{ color: '#d12027', textDecoration: 'none' }}>
-                  {authorName}
-                </Link>
-              ) : 'অজানা'}
-            </div>
-
-            <div style={{ fontSize: '16px', color: '#444', marginBottom: '12px' }}>
-              <span style={{ color: '#555' }}>বিষয়: </span>
-              {categoryName ? (
-                <Link href={`/books?category=${categorySlug}`} style={{ color: '#d12027', textDecoration: 'none' }}>
-                  {categoryName}
-                </Link>
-              ) : 'সাধারণ'}
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '20px' }}>
-              <div style={{ color: '#f39c12', fontSize: '18px', letterSpacing: '2px' }}>
-                ☆☆☆☆☆
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div style={{ fontSize: '16px', color: '#444' }}>
+                <span style={{ color: '#555' }}>লেখক: </span>
+                {authorName ? (
+                  <Link href={`/books?author=${authorSlug}`} style={{ color: '#d12027', textDecoration: 'none' }}>
+                    {authorName}
+                  </Link>
+                ) : 'অজানা'}
               </div>
-              <span style={{ color: '#777', fontSize: '14px' }}>({book.review_count || 0} review)</span>
+
+              <div style={{ fontSize: '16px', color: '#444' }}>
+                <span style={{ color: '#555' }}>বিষয়: </span>
+                {categoryName ? (
+                  <Link href={`/books?category=${categorySlug}`} style={{ color: '#d12027', textDecoration: 'none' }}>
+                    {categoryName}
+                  </Link>
+                ) : 'সাধারণ'}
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <div style={{ color: '#f39c12', fontSize: '18px', letterSpacing: '2px' }}>
+                  ☆☆☆☆☆
+                </div>
+                <span style={{ color: '#777', fontSize: '14px' }}>({book.review_count || 0} review)</span>
+              </div>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '5px' }}>
-              <span style={{ fontSize: '26px', fontWeight: 'bold', color: '#333' }}>
-                {price.toLocaleString('bn-BD')} টাকা
-              </span>
-              {discount > 0 && (
-                <span style={{ color: '#d12027', fontSize: '18px', fontWeight: 'bold' }}>
-                  {discount}% ছাড়
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                <span style={{ fontSize: '28px', fontWeight: 'bold', color: '#111' }}>
+                  {price.toLocaleString('bn-BD')} টাকা
                 </span>
+                {discount > 0 && (
+                  <span style={{ color: '#d12027', fontSize: '16px', fontWeight: 'bold', background: '#ffebee', padding: '4px 10px', borderRadius: '4px' }}>
+                    {discount}% ছাড়
+                  </span>
+                )}
+              </div>
+              
+              {originalPrice > price && (
+                <div style={{ color: '#888', fontSize: '18px', textDecoration: 'line-through' }}>
+                  {originalPrice.toLocaleString('bn-BD')} টাকা
+                </div>
               )}
             </div>
-            
-            {originalPrice > price && (
-              <div style={{ color: '#666', fontSize: '20px', textDecoration: 'line-through', marginBottom: '25px' }}>
-                {originalPrice.toLocaleString('bn-BD')} টাকা
-              </div>
-            )}
 
-            <div style={{ borderBottom: '1px dotted #ccc', margin: '25px 0' }}></div>
+            <div style={{ borderBottom: '1px dotted #ccc', margin: '10px 0' }}></div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
               {/* Quantity Control */}
